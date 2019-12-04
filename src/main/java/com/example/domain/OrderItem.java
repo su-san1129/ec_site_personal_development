@@ -23,7 +23,7 @@ public class OrderItem {
 	/** アイテム */
 	private Item item;
 	/** オーダートッピングリスト */
-	List<OrderTopping> orderToppingList;
+	private List<OrderTopping> orderToppingList;
 	
 	public OrderItem() {}
 	

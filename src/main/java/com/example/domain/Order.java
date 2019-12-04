@@ -28,7 +28,7 @@ public class Order {
 	/** 宛名Eメール */
 	private String destinationEmail;
 	/** 宛名郵便番号 */
-	private String destinatioZipcode;
+	private String destinationZipcode;
 	/** 宛名住所 */
 	private String destinationAddress;
 	/** 宛名TEL */
@@ -45,7 +45,7 @@ public class Order {
 	public Order() {}
 	
 	public Order(Integer id, Integer userId, Integer status, Integer totalPrice, Date orderDate, String destinationName,
-			String destinationEmail, String destinatioZipcode, String destinationAddress, String destinationTel,
+			String destinationEmail, String destinationZipcode, String destinationAddress, String destinationTel,
 			Timestamp deliveryTime, Integer paymentMethod, User user, List<OrderItem> orderItemList) {
 		super();
 		this.id = id;
@@ -55,7 +55,7 @@ public class Order {
 		this.orderDate = orderDate;
 		this.destinationName = destinationName;
 		this.destinationEmail = destinationEmail;
-		this.destinatioZipcode = destinatioZipcode;
+		this.destinationZipcode = destinationZipcode;
 		this.destinationAddress = destinationAddress;
 		this.destinationTel = destinationTel;
 		this.deliveryTime = deliveryTime;
@@ -108,10 +108,10 @@ public class Order {
 		this.destinationEmail = destinationEmail;
 	}
 	public String getDestinatioZipcode() {
-		return destinatioZipcode;
+		return destinationZipcode;
 	}
 	public void setDestinatioZipcode(String destinatioZipcode) {
-		this.destinatioZipcode = destinatioZipcode;
+		this.destinationZipcode = destinatioZipcode;
 	}
 	public String getDestinationAddress() {
 		return destinationAddress;
@@ -154,7 +154,7 @@ public class Order {
 	public String toString() {
 		return "Order [id=" + id + ", userId=" + userId + ", status=" + status + ", totalPrice=" + totalPrice
 				+ ", orderDate=" + orderDate + ", destinationName=" + destinationName + ", destinationEmail="
-				+ destinationEmail + ", destinatioZipcode=" + destinatioZipcode + ", destinationAddress="
+				+ destinationEmail + ", destinationZipcode=" + destinationZipcode + ", destinationAddress="
 				+ destinationAddress + ", destinationTel=" + destinationTel + ", deliveryTime=" + deliveryTime
 				+ ", paymentMethod=" + paymentMethod + ", user=" + user + ", orderItemList=" + orderItemList + "]";
 	}
