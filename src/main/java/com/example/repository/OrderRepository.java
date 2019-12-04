@@ -28,10 +28,11 @@ public class OrderRepository {
 	@Autowired
 	private ToppingRepository toppingRepository;
 	
-	private final ResultSetExtractor<Order> ORDER_RESULT_SET_EXTRACTOR = (rs) -> {
+	private final ResultSetExtractor<List<Order>> ORDER_RESULT_SET_EXTRACTOR = (rs) -> {
 		
 		Integer preOrderId = 0; // 一行前のオーダーID
 		Integer preOrderItemId = 0; // 一行前のオーダーアイテムID
+		List<Order> orderList = new ArrayList<>(); // 返却するオーダーリスト
 		List<OrderItem> orderItemList = null; // 注文商品リスト（オーダーオブジェクトが所持）
 		List<OrderTopping> orderToppingList = null; // 注文トッピングリスト(注文商品オブジェクトが所持)
 		
@@ -54,6 +55,7 @@ public class OrderRepository {
 						, userRepository.load(rs.getInt("user_id"))
 						, orderItemList
 						);
+				orderList.add(order);
 			}
 			preOrderId = rs.getInt("id"); // 一行前のIDを現在のIDに更新
 			
@@ -73,7 +75,6 @@ public class OrderRepository {
 			preOrderItemId = rs.getInt("order_item_id"); // 一行前のIDを現在のIDに更新
 			
 			if( rs.getInt("order_topping_id") != 0 ) {
-				Topping topping = toppingRepository.load( rs.getInt("topping_id") );
 				OrderTopping orderTopping = new OrderTopping(
 						rs.getInt("order_topping_id")
 						, rs.getInt("topping_id")
@@ -83,6 +84,7 @@ public class OrderRepository {
 				orderToppingList.add(orderTopping);
 			}
 		}
+		return orderList;
 	};
 	
 
