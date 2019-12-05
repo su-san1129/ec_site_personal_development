@@ -8,44 +8,44 @@
 		<div class="row">
 			<div class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-10 col-xs-12">
 				<div class="well">
-					<form method="post" action="item_list.html" th:action="@{/register}">
+					<form method="post" action="item_list.html" th:action="@{/register}" th:object="${registerUserForm}">
 						<fieldset>
 							<legend>ユーザー登録</legend>
 							<div class="form-group">
 								<label for="inputName">名前:</label>
-								<label class="control-label" style="color: red" for="inputError">髯ｷ�ｽｷ隶朱｡費ｿｽ諷包ｽｹ�ｽｧ髮区ｩｸ�ｽｿ�ｽｽ�ｿｽ�ｽｽ�ｽ･髯ｷ迚呻ｽｸ蜻ｻ�ｽｼ�ｿｽ驍ｵ�ｽｺ�ｿｽ�ｽｽ�ｽｦ驍ｵ�ｽｺ闕ｳ蟯ｩ蜻ｳ驍ｵ�ｽｺ髴郁ｲｻ�ｽｼ�ｿｽ</label>
-								<input type="text" id="inputName" class="form-control" placeholder="Name" name="name">
+								<label class="control-label" style="color: red" for="inputError" th:errors="*{name}">髯ｷ�ｽｷ隶朱｡費ｿｽ諷包ｽｹ�ｽｧ髮区ｩｸ�ｽｿ�ｽｽ�ｿｽ�ｽｽ�ｽ･髯ｷ迚呻ｽｸ蜻ｻ�ｽｼ�ｿｽ驍ｵ�ｽｺ�ｿｽ�ｽｽ�ｽｦ驍ｵ�ｽｺ闕ｳ蟯ｩ蜻ｳ驍ｵ�ｽｺ髴郁ｲｻ�ｽｼ�ｿｽ</label>
+								<input type="text" id="inputName" class="form-control" placeholder="Name" name="name" th:field="*{name}">
 							</div>
 							<div class="form-group">
 								<label for="inputEmail">メールアドレス:</label>
-								<label class="control-label" style="color: red" for="inputError">驛｢譎｢�ｽｽ�ｽ｡驛｢譎｢�ｽｽ�ｽｼ驛｢譎｢�ｽｽ�ｽｫ驛｢�ｽｧ�ｿｽ�ｽｽ�ｽ｢驛｢譎擾ｽｳ�ｽｨ�ｾ取ｨ抵ｽｹ�ｽｧ�ｿｽ�ｽｽ�ｽｹ驛｢�ｽｧ髮区ｩｸ�ｽｿ�ｽｽ�ｿｽ�ｽｽ�ｽ･髯ｷ迚呻ｽｸ蜻ｻ�ｽｼ�ｿｽ驍ｵ�ｽｺ�ｿｽ�ｽｽ�ｽｦ驍ｵ�ｽｺ闕ｳ蟯ｩ蜻ｳ驍ｵ�ｽｺ髴郁ｲｻ�ｽｼ�ｿｽ</label>
-								<input type="text" id="inputEmail" class="form-control" placeholder="Email" name="email">
+								<label class="control-label" style="color: red" for="inputError" th:errors="*{email}">驛｢譎｢�ｽｽ�ｽ｡驛｢譎｢�ｽｽ�ｽｼ驛｢譎｢�ｽｽ�ｽｫ驛｢�ｽｧ�ｿｽ�ｽｽ�ｽ｢驛｢譎擾ｽｳ�ｽｨ�ｾ取ｨ抵ｽｹ�ｽｧ�ｿｽ�ｽｽ�ｽｹ驛｢�ｽｧ髮区ｩｸ�ｽｿ�ｽｽ�ｿｽ�ｽｽ�ｽ･髯ｷ迚呻ｽｸ蜻ｻ�ｽｼ�ｿｽ驍ｵ�ｽｺ�ｿｽ�ｽｽ�ｽｦ驍ｵ�ｽｺ闕ｳ蟯ｩ蜻ｳ驍ｵ�ｽｺ髴郁ｲｻ�ｽｼ�ｿｽ</label>
+								<input type="text" id="inputEmail" class="form-control" placeholder="Email" name="email" th:field="*{email}">
 							</div>
 							<div class="form-group">
 								<label for="inputZipcode">郵便番号(半角ハイフン無し):</label> 
-								<label class="control-label" style="color: red" for="inputError">鬯ｩ蟷｢�ｽｽ�ｽｵ髣憺屮�ｽｽ�ｽｿ鬨ｾ�ｽ｡�ｿｽ�ｽｽ�ｽｪ髯ｷ�ｽｿ�ｿｽ�ｽｽ�ｽｷ驛｢�ｽｧ髮区ｩｸ�ｽｿ�ｽｽ�ｿｽ�ｽｽ�ｽ･髯ｷ迚呻ｽｸ蜻ｻ�ｽｼ�ｿｽ驍ｵ�ｽｺ�ｿｽ�ｽｽ�ｽｦ驍ｵ�ｽｺ闕ｳ蟯ｩ蜻ｳ驍ｵ�ｽｺ髴郁ｲｻ�ｽｼ�ｿｽ</label>
-								<input type="button" value="菴乗園讀懃ｴ｢">
-								<input type="text" id="inputZipcode" class="form-control" placeholder="Zipcode" name="zipcode">
+								<label class="control-label" style="color: red" for="inputError" th:errors="*{zipcode}">鬯ｩ蟷｢�ｽｽ�ｽｵ髣憺屮�ｽｽ�ｽｿ鬨ｾ�ｽ｡�ｿｽ�ｽｽ�ｽｪ髯ｷ�ｽｿ�ｿｽ�ｽｽ�ｽｷ驛｢�ｽｧ髮区ｩｸ�ｽｿ�ｽｽ�ｿｽ�ｽｽ�ｽ･髯ｷ迚呻ｽｸ蜻ｻ�ｽｼ�ｿｽ驍ｵ�ｽｺ�ｿｽ�ｽｽ�ｽｦ驍ｵ�ｽｺ闕ｳ蟯ｩ蜻ｳ驍ｵ�ｽｺ髴郁ｲｻ�ｽｼ�ｿｽ</label>
+								<input type="button" value="住所検索">
+								<input type="text" id="inputZipcode" class="form-control" placeholder="Zipcode" name="zipcode" th:field="*{zipcode}">
 							</div>
 							<div class="form-group">
 								<label for="inputAddress">住所:</label> 
-								<label class="control-label" style="color: red" for="inputError">髣厄ｽｴ闕ｵ諤懈″驛｢�ｽｧ髮区ｩｸ�ｽｿ�ｽｽ�ｿｽ�ｽｽ�ｽ･髯ｷ迚呻ｽｸ蜻ｻ�ｽｼ�ｿｽ驍ｵ�ｽｺ�ｿｽ�ｽｽ�ｽｦ驍ｵ�ｽｺ闕ｳ蟯ｩ蜻ｳ驍ｵ�ｽｺ髴郁ｲｻ�ｽｼ�ｿｽ</label>
-								<input type="text" id="inputAddress" class="form-control" placeholder="Address" name="address">
+								<label class="control-label" style="color: red" for="inputError" th:errors="*{address}">髣厄ｽｴ闕ｵ諤懈″驛｢�ｽｧ髮区ｩｸ�ｽｿ�ｽｽ�ｿｽ�ｽｽ�ｽ･髯ｷ迚呻ｽｸ蜻ｻ�ｽｼ�ｿｽ驍ｵ�ｽｺ�ｿｽ�ｽｽ�ｽｦ驍ｵ�ｽｺ闕ｳ蟯ｩ蜻ｳ驍ｵ�ｽｺ髴郁ｲｻ�ｽｼ�ｿｽ</label>
+								<input type="text" id="inputAddress" class="form-control" placeholder="Address" name="address" th:field="*{address}">
 							</div>
 							<div class="form-group">
 								<label for="inputTel">電話番号(半角ハイフン無し):</label> 
-								<label class="control-label" style="color: red" for="inputError">鬯ｮ�ｽｮ�ｿｽ�ｽｽ�ｽｻ鬮ｫ�ｽｧ�ｿｽ�ｽｽ�ｽｱ鬨ｾ�ｽ｡�ｿｽ�ｽｽ�ｽｪ髯ｷ�ｽｿ�ｿｽ�ｽｽ�ｽｷ驛｢�ｽｧ髮区ｩｸ�ｽｿ�ｽｽ�ｿｽ�ｽｽ�ｽ･髯ｷ迚呻ｽｸ蜻ｻ�ｽｼ�ｿｽ驍ｵ�ｽｺ�ｿｽ�ｽｽ�ｽｦ驍ｵ�ｽｺ闕ｳ蟯ｩ蜻ｳ驍ｵ�ｽｺ髴郁ｲｻ�ｽｼ�ｿｽ</label>
-								<input type="text" id="inputTel" class="form-control" placeholder="Tel" name="telephone">
+								<label class="control-label" style="color: red" for="inputError" th:errors="*{telephone}">鬯ｮ�ｽｮ�ｿｽ�ｽｽ�ｽｻ鬮ｫ�ｽｧ�ｿｽ�ｽｽ�ｽｱ鬨ｾ�ｽ｡�ｿｽ�ｽｽ�ｽｪ髯ｷ�ｽｿ�ｿｽ�ｽｽ�ｽｷ驛｢�ｽｧ髮区ｩｸ�ｽｿ�ｽｽ�ｿｽ�ｽｽ�ｽ･髯ｷ迚呻ｽｸ蜻ｻ�ｽｼ�ｿｽ驍ｵ�ｽｺ�ｿｽ�ｽｽ�ｽｦ驍ｵ�ｽｺ闕ｳ蟯ｩ蜻ｳ驍ｵ�ｽｺ髴郁ｲｻ�ｽｼ�ｿｽ</label>
+								<input type="text" id="inputTel" class="form-control" placeholder="Tel" name="telephone" th:field="*{telephone}">
 							</div>
 							<div class="form-group">
 								<label for="inputPassword">パスワード:</label> 
-								<label class="control-label" style="color: red" for="inputError">驛｢譏懶ｽｻ�ｽ｣邵ｺ蟶ｷ�ｽｹ譎｢�ｽｽ�ｽｯ驛｢譎｢�ｽｽ�ｽｼ驛｢譎擾ｽｳ�ｽｨ�ｿｽ�ｽｽ螳壽�ｦ�ｿｽ�ｽｽ�ｽ･髯ｷ迚呻ｽｸ蜻ｻ�ｽｼ�ｿｽ驍ｵ�ｽｺ�ｿｽ�ｽｽ�ｽｦ驍ｵ�ｽｺ闕ｳ蟯ｩ蜻ｳ驍ｵ�ｽｺ髴郁ｲｻ�ｽｼ�ｿｽ</label>
-								<input type="text" id="inputPassword" class="form-control" placeholder="Password" name="password">
+								<label class="control-label" style="color: red" for="inputError" th:errors="*{password}">驛｢譏懶ｽｻ�ｽ｣邵ｺ蟶ｷ�ｽｹ譎｢�ｽｽ�ｽｯ驛｢譎｢�ｽｽ�ｽｼ驛｢譎擾ｽｳ�ｽｨ�ｿｽ�ｽｽ螳壽�ｦ�ｿｽ�ｽｽ�ｽ･髯ｷ迚呻ｽｸ蜻ｻ�ｽｼ�ｿｽ驍ｵ�ｽｺ�ｿｽ�ｽｽ�ｽｦ驍ｵ�ｽｺ闕ｳ蟯ｩ蜻ｳ驍ｵ�ｽｺ髴郁ｲｻ�ｽｼ�ｿｽ</label>
+								<input type="text" id="inputPassword" class="form-control" placeholder="Password" name="password" th:field="*{password}">
 							</div>
 							<div class="form-group">
 								<label for="inputConfirmationPassword">確認用パスワード:</label> 
-								<label class="control-label" style="color: red" for="inputError">鬩墓慣�ｽｽ�ｽｺ鬮ｫ�ｽｱ陷･�ｽｲ騾｡驢搾ｽｹ譏懶ｽｻ�ｽ｣邵ｺ蟶ｷ�ｽｹ譎｢�ｽｽ�ｽｯ驛｢譎｢�ｽｽ�ｽｼ驛｢譎擾ｽｳ�ｽｨ�ｿｽ�ｽｽ螳壽�ｦ�ｿｽ�ｽｽ�ｽ･髯ｷ迚呻ｽｸ蜻ｻ�ｽｼ�ｿｽ驍ｵ�ｽｺ�ｿｽ�ｽｽ�ｽｦ驍ｵ�ｽｺ闕ｳ蟯ｩ蜻ｳ驍ｵ�ｽｺ髴郁ｲｻ�ｽｼ�ｿｽ</label>
-								<input type="text" id="inputConfirmationPassword" class="form-control" placeholder="Confirmation Password" name="confirmationPassword">
+								<label class="control-label" style="color: red" for="inputError" th:errors="*{confirmationPassword}">鬩墓慣�ｽｽ�ｽｺ鬮ｫ�ｽｱ陷･�ｽｲ騾｡驢搾ｽｹ譏懶ｽｻ�ｽ｣邵ｺ蟶ｷ�ｽｹ譎｢�ｽｽ�ｽｯ驛｢譎｢�ｽｽ�ｽｼ驛｢譎擾ｽｳ�ｽｨ�ｿｽ�ｽｽ螳壽�ｦ�ｿｽ�ｽｽ�ｽ･髯ｷ迚呻ｽｸ蜻ｻ�ｽｼ�ｿｽ驍ｵ�ｽｺ�ｿｽ�ｽｽ�ｽｦ驍ｵ�ｽｺ闕ｳ蟯ｩ蜻ｳ驍ｵ�ｽｺ髴郁ｲｻ�ｽｼ�ｿｽ</label>
+								<input type="text" id="inputConfirmationPassword" class="form-control" placeholder="Confirmation Password" name="confirmationPassword" th:field="*{confirmationPassword}">
 							</div>
 							<div class="form-group">
 								<button type="submit" class="btn btn-primary">登録</button>
