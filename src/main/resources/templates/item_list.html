@@ -33,7 +33,6 @@
 			</div>
 		</div>
 
-		<!-- table -->
 		<div class="row">
 			<div
 				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
@@ -45,15 +44,14 @@
 								th:src="@{ '/img/' + ${item.imagePath} }"
 								class="img-responsive img-rounded" width="200" height="600">
 							</a><br> <a th:href="@{ '/item_detail?id=' + ${item.id} }"><span
-								th:text="${item.name}">じゃがバターピザ</span></a><br>
-							<span class="price">&nbsp;M&nbsp;</span>&nbsp;&nbsp;<span
+								th:text="${item.name}">じゃがバターピザ</span></a><br> <span
+								class="price">&nbsp;M&nbsp;</span>&nbsp;&nbsp;<span
 								th:text="${item.priceM}">1,380</span>円(税抜)<br> <span
 								class="price">&nbsp;L&nbsp;&nbsp;</span><span
 								th:text="${item.priceL}">2,380</span>円(税抜)<br>
 						</div>
 					</div>
 				</div>
-
 			</div>
 		</div>
 	</div>
