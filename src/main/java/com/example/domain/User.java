@@ -14,6 +14,7 @@ public class User {
 	private String name;
 	/** Eメール */
 	private String email;
+	/** パスワード */
 	private String password;
 	/** 郵便番号 */
 	private String zipcode;

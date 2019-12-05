@@ -21,43 +21,36 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
  */
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter{
-	
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
 	@Autowired
 	private UserDetailsService userDetailsService;
-	
+
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/css/**", "/img/**", "/js/**");
 	}
-	
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-			.antMatchers("/", "/login", "/register", "/logout", "/item_detail").permitAll()
-			.anyRequest().authenticated();
-		http.formLogin()
-			.loginPage("/login")
-			.loginProcessingUrl("/userLogin")
-			.defaultSuccessUrl("/success", true)
-			.usernameParameter("email").passwordParameter("password");
-		http.logout()
-			.logoutRequestMatcher(new AntPathRequestMatcher("/logout**"))
-			.logoutSuccessUrl("/")
-			.deleteCookies("JSESSIONID")
-			.invalidateHttpSession(true);
-		
+				.antMatchers("/", "/login", "/userLogin", "/register_user", "/register", "/logout", "/item_detail")
+				.permitAll().anyRequest().authenticated();
+		http.formLogin().loginPage("/login").loginProcessingUrl("/userLogin").defaultSuccessUrl("/", false)
+				.usernameParameter("email").passwordParameter("password");
+		http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout**")).logoutSuccessUrl("/")
+				.deleteCookies("JSESSIONID").invalidateHttpSession(true);
+
 	}
-	
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
 	}
-	
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
 
 }
