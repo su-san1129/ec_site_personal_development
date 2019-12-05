@@ -32,14 +32,16 @@ public class OrderItemRepository {
 	 * 注文商品オブジェクトを格納するローマッパー.
 	 */
 	private final RowMapper<OrderItem> ORDER_ITEM_ROW_MAPPER = (rs, i) -> {
-		Integer id = rs.getInt("id");
-		Integer itemId = rs.getInt("item_id");
-		Integer orderId = rs.getInt("order_id");
-		Integer quantity = rs.getInt("quantity");
-		Character size = rs.getString("size").charAt(0);
-		Item item = itemRepository.load(rs.getInt("item_id"));
 		List<OrderTopping> orderToppingList = new ArrayList<>();
-		OrderItem orderItem = new OrderItem(id, itemId, orderId, quantity, size, item, orderToppingList);
+		OrderItem orderItem = new OrderItem(
+				rs.getInt("id")
+				, rs.getInt("item_id")
+				, rs.getInt("order_id")
+				, rs.getInt("quantity")
+				, rs.getString("size").charAt(0)
+				, itemRepository.load(rs.getInt("item_id"))
+				, orderToppingList
+				);
 		return orderItem;
 	};
 }

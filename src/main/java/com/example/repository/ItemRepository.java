@@ -1,6 +1,5 @@
 package com.example.repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,19 +23,33 @@ public class ItemRepository {
 	@Autowired
 	private NamedParameterJdbcTemplate template;
 	
+	@Autowired
+	private ToppingRepository toppingRepository;
+	
+	/**
+	 * 商品情報のローマッパー
+	 */
 	private final RowMapper<Item> ITEM_ROW_MAPPER = (rs, i) -> {
-		Integer id = rs.getInt("id");
-		String name = rs.getString("name");
-		String description = rs.getString("description");
-		Integer priceM = rs.getInt("price_m");
-		Integer priceL = rs.getInt("price_l");
-		String imagePath = rs.getString("iamge_path");
-		Boolean deleted = rs.getBoolean("deleted");
-		List<Topping> toppingList = new ArrayList<>();
-		Item item = new Item(id, name, description, priceM, priceL, imagePath, deleted, toppingList);
+		List<Topping> toppingList = toppingRepository.findAll();
+		Item item = new Item(
+				rs.getInt("id")
+				, rs.getString("name")
+				, rs.getString("description")
+				, rs.getInt("price_m")
+				, rs.getInt("price_l")
+				, rs.getString("image_path")
+				, rs.getBoolean("deleted")
+				, toppingList
+				);
 		return item;
 	};
 	
+	/**
+	 * 商品の一件検索.
+	 * 
+	 * @param id ID
+	 * @return IDで検索された商品 1件もない場合、例外が発生しnullになる
+	 */
 	public Item load(Integer id) {
 		try {
 			String sql = "SELECT id, name, description, price_m, price_l, image_path, deleted FROM items WHERE id = :id";
@@ -47,6 +60,17 @@ public class ItemRepository {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	/**
+	 * 商品の全件検索.
+	 * 
+	 * @return 商品の全件検索情報
+	 */
+	public List<Item> findAll(){
+		String sql = "SELECT id, name, description, price_m, price_l, image_path, deleted FROM items ORDER BY id;";
+		List<Item> itemList = template.query(sql, ITEM_ROW_MAPPER);
+		return itemList;
 	}
 
 }
