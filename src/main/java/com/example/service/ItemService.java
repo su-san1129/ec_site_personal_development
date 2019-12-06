@@ -16,10 +16,10 @@ import com.example.repository.ItemRepository;
  */
 @Service
 public class ItemService {
-	
+
 	@Autowired
 	private ItemRepository itemRepository;
-	
+
 	/**
 	 * 商品詳細を表示.
 	 * 
@@ -29,14 +29,27 @@ public class ItemService {
 	public Item showItemDetail(Integer id) {
 		return itemRepository.load(id);
 	}
-	
+
 	/**
 	 * 全商品情報を表示する.
 	 * 
 	 * @return 商品全件検索情報
 	 */
-	public List<Item> showItemList(){
+	public List<Item> showItemList() {
 		return itemRepository.findAll();
+	}
+
+	/**
+	 * 表示する数量.
+	 * 
+	 * @return 数量の配列
+	 */
+	public int[] quantity() {
+		int[] quantity = new int[10];
+		for (int i = 0; i < quantity.length; i++) {
+			quantity[i] = i + 1;
+		}
+		return quantity;
 	}
 
 }

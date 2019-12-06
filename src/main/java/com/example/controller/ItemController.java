@@ -19,10 +19,10 @@ import com.example.service.ItemService;
 @Controller
 @RequestMapping("")
 public class ItemController {
-	
+
 	@Autowired
 	private ItemService itemService;
-	
+
 	/**
 	 * 商品一覧画面を表示.
 	 * 
@@ -35,7 +35,7 @@ public class ItemController {
 		model.addAttribute("itemList", itemList);
 		return "item_list";
 	}
-	
+
 	/**
 	 * 商品詳細画面を表示.
 	 * 
@@ -45,6 +45,7 @@ public class ItemController {
 	@RequestMapping("/item_detail")
 	public String showItemDetail(Integer id, Model model) {
 		Item item = itemService.showItemDetail(id);
+		model.addAttribute("quantities", itemService.quantity());
 		model.addAttribute("item", item);
 		return "item_detail";
 	}
