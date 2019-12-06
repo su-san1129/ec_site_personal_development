@@ -53,6 +53,12 @@ public class UserController {
 		return "register_user";
 	}
 
+	/**
+	 * ユーザー新規登録処理.
+	 * 
+	 * @param form フォーム
+	 * @return ユーザーログイン画面
+	 */
 	@RequestMapping("/register")
 	public String register(RegisterUserForm form) {
 		userService.registerUser(form);

@@ -7,7 +7,7 @@
 <body>
 	<div class="container">
 
-		<form action="cart_list.html" th:action="@{/cart_list}" method="post">
+		<form action="cart_list.html" th:action="@{/cart_list/addCart}" method="post">
 		<div class="row">
 			<div class="col-xs-offset-2 col-xs-8">
 
@@ -34,13 +34,11 @@
 								</div>
 								<div class="col-sm-12">
 									<label class="radio-inline">
-										<input type="radio"
-											name="responsibleCompany" checked="checked">
+										<input type="radio" name="size" value="M" checked="checked">
 										<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span th:text="${item.priceM}">1,380</span>円(税抜)
 									</label>
 									<label class="radio-inline">
-										<input type="radio"
-											name="responsibleCompany">
+										<input type="radio" name="size" value="L">
 										<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;<span th:text="${item.priceL}">2,380</span>円(税抜)
 									</label>
 								</div>
@@ -61,7 +59,7 @@
 								</div>
 								<div class="col-sm-12">
 									<label class="checkbox-inline" th:each="topping:${item.toppingList}">
-										<input type="checkbox" th:value="${topping.name}" th:text="${topping.name}">
+										<input type="checkbox" th:value="${topping.id}" th:text="${topping.name}" name="orderToppingList">
 									</label>
 								</div>
 							</div>
@@ -76,7 +74,7 @@
 									<label for="">数量:</label>
 									<label class="control-label"
 										style="color: red" for="inputError">数量を選択してください</label> <select
-										name="area" class="form-control">
+										name="quantity" class="form-control">
 										<option th:each="quantity:${quantities}" th:text="${quantity}" th:value="${quantity}">1</option>
 									</select>
 								</div>
@@ -92,6 +90,7 @@
 						</div>
 					</div>
 				</div>
+				<input type="hidden" name="itemId"th:value="${item.id}">
 				<div class="row">
 					<div class="col-xs-offset-2 col-xs-3">
 						<div class="form-group">

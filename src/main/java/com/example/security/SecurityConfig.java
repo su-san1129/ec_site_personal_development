@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/", "/login", "/userLogin", "/register_user", "/register", "/logout",
-				"/item_detail", "/order_confirm", "/cart_list", "/order_finished").permitAll().anyRequest()
+				"/item_detail", "/order_confirm", "/cart_list/**", "/order_finished").permitAll().anyRequest()
 				.authenticated();
 		http.formLogin().loginPage("/login").loginProcessingUrl("/userLogin").defaultSuccessUrl("/", false)
 				.usernameParameter("email").passwordParameter("password");

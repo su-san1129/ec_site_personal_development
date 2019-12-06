@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	th:replace="~{layout/template :: layout(~{::title},~{::body/content()})}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/template :: layout(~{::title},~{::body/content()})}">
 <head>
 <title>ピザ屋のネット注文</title>
 </head>
 <body>
 	<div class="container">
 		<div class="row">
-			<div
-				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
+			<div class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
 				<h3 class="text-center">注文内容確認</h3>
 				<table class="table table-striped">
 					<tbody>
@@ -26,60 +24,18 @@
 								<div class="text-center">小計</div>
 							</th>
 						</tr>
-						<tr>
+						<tr th:each="orderItem:${order.orderItemList}">
 							<td>
 								<div class="center">
-									<img src="img/1.jpg" class="img-responsive img-rounded"
-										width="100" height="300"><br> じゃがバターベーコン
+									<img th:src="@{'/img/'+${orderItem.imagePath}" class="img-responsive img-rounded" width="100" height="300"><br> じゃがバターベーコン
 								</div>
 							</td>
-							<td><span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;2,380円
-								&nbsp;&nbsp;1個</td>
 							<td>
-								<ul>
-									<li>ピーマン300円</li>
-									<li>オニオン300円</li>
-									<li>あらびきソーセージ300円</li>
-								</ul>
+								<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;2,380円 &nbsp;&nbsp;1個
 							</td>
 							<td>
-								<div class="text-center">3,280円</div>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<div class="center">
-									<img src="img/1.jpg" class="img-responsive img-rounded"
-										width="100" height="300"><br> じゃがバターベーコン
-								</div>
-							</td>
-							<td><span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;2,380円
-								&nbsp;&nbsp;1個</td>
-							<td>
-								<ul>
-									<li>ピーマン300円</li>
-									<li>オニオン300円</li>
-									<li>あらびきソーセージ300円</li>
-								</ul>
-							</td>
-							<td>
-								<div class="text-center">3,280円</div>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<div class="center">
-									<img src="img/1.jpg" class="img-responsive img-rounded"
-										width="100" height="300"><br> じゃがバターベーコン
-								</div>
-							</td>
-							<td><span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;2,380円
-								&nbsp;&nbsp;1個</td>
-							<td>
-								<ul>
-									<li>ピーマン300円</li>
-									<li>オニオン300円</li>
-									<li>あらびきソーセージ300円</li>
+								<ul th:each="topping:${orderItem.orderToppingList}">
+									<li><span th:text="${topping.name}">ピーマン</span>300円</li>
 								</ul>
 							</td>
 							<td>
@@ -94,8 +50,7 @@
 		<div class="row">
 			<div class="col-xs-offset-2 col-xs-8">
 				<div class="form-group text-center">
-					<span id="total-price">消費税：8,000円</span><br> <span
-						id="total-price">ご注文金額合計：38,000円 (税込)</span>
+					<span id="total-price">消費税：8,000円</span><br> <span id="total-price">ご注文金額合計：38,000円 (税込)</span>
 				</div>
 			</div>
 		</div>
@@ -103,8 +58,7 @@
 		<!-- table -->
 		<form action="order_finished.html" th:action="@{/order_finished}">
 			<div class="row">
-				<div
-					class="table-responsive col-lg-offset-3 col-lg-6 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
+				<div class="table-responsive col-lg-offset-3 col-lg-6 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
 					<h3 class="text-center">お届け先情報</h3>
 					<table class="table table-striped">
 						<tbody>
@@ -112,32 +66,43 @@
 								<td>
 									<div class="text-center">お名前</div>
 								</td>
-								<td><input type="text"></td>
+								<td>
+									<input type="text">
+								</td>
 							</tr>
 							<tr>
 								<td>
 									<div class="text-center">メールアドレス</div>
 								</td>
-								<td><input type="text"></td>
+								<td>
+									<input type="text">
+								</td>
 							</tr>
 							<tr>
 								<td>
 									<div class="text-center">郵便番号</div>
 								</td>
-								<td><input type="text">&nbsp;&nbsp;
-									<button>住所検索</button></td>
+								<td>
+									<input type="text">
+									&nbsp;&nbsp;
+									<button>住所検索</button>
+								</td>
 							</tr>
 							<tr>
 								<td>
 									<div class="text-center">住所</div>
 								</td>
-								<td><input type="text"></td>
+								<td>
+									<input type="text">
+								</td>
 							</tr>
 							<tr>
 								<td>
 									<div class="text-center">電話番号</div>
 								</td>
-								<td><input type="text"></td>
+								<td>
+									<input type="text">
+								</td>
 							</tr>
 							<tr>
 								<td>
@@ -147,35 +112,24 @@
 									<div class="form-group">
 										<div class="row">
 											<div class="col-sm-12">
-												<label class="control-label" style="color: red"
-													for="inputPeriod">配達日時を入力してください</label>
+												<label class="control-label" style="color: red" for="inputPeriod">配達日時を入力してください</label>
 											</div>
 											<div class="col-sm-5">
-												<input type="date" name="name" id="name"
-													class="form-control input-sm" />
+												<input type="date" name="name" id="name" class="form-control input-sm" />
 											</div>
 
 										</div>
 										<div class="row">
 											<div class="col-sm-12">
-												<label class="radio-inline"> <input type="radio"
-													name="responsibleCompany" checked="checked"> 10時
-												</label> <label class="radio-inline"> <input type="radio"
-													name="responsibleCompany"> 11時
-												</label> <label class="radio-inline"> <input type="radio"
-													name="responsibleCompany"> 12時
-												</label><br> <label class="radio-inline"> <input
-													type="radio" name="responsibleCompany"> 13時
-												</label> <label class="radio-inline"> <input type="radio"
-													name="responsibleCompany"> 14時
-												</label> <label class="radio-inline"> <input type="radio"
-													name="responsibleCompany"> 15時
-												</label><br> <label class="radio-inline"> <input
-													type="radio" name="responsibleCompany"> 16時
-												</label> <label class="radio-inline"> <input type="radio"
-													name="responsibleCompany"> 17時
-												</label> <label class="radio-inline"> <input type="radio"
-													name="responsibleCompany"> 18時
+												<label class="radio-inline"> <input type="radio" name="responsibleCompany" checked="checked"> 10時
+												</label> <label class="radio-inline"> <input type="radio" name="responsibleCompany"> 11時
+												</label> <label class="radio-inline"> <input type="radio" name="responsibleCompany"> 12時
+												</label><br> <label class="radio-inline"> <input type="radio" name="responsibleCompany"> 13時
+												</label> <label class="radio-inline"> <input type="radio" name="responsibleCompany"> 14時
+												</label> <label class="radio-inline"> <input type="radio" name="responsibleCompany"> 15時
+												</label><br> <label class="radio-inline"> <input type="radio" name="responsibleCompany"> 16時
+												</label> <label class="radio-inline"> <input type="radio" name="responsibleCompany"> 17時
+												</label> <label class="radio-inline"> <input type="radio" name="responsibleCompany"> 18時
 												</label><br>
 											</div>
 										</div>
@@ -189,8 +143,7 @@
 
 			<!-- table -->
 			<div class="row">
-				<div
-					class="table-responsive col-lg-offset-3 col-lg-6 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
+				<div class="table-responsive col-lg-offset-3 col-lg-6 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
 					<h3 class="text-center">お支払い方法</h3>
 					<table class="table table-striped">
 						<tbody>
@@ -201,8 +154,7 @@
 								<td>
 									<div class="row">
 										<div class="col-sm-12">
-											<label class="radio-inline"> <input type="radio"
-												name="responsibleCompany" checked="checked"> 代金引換
+											<label class="radio-inline"> <input type="radio" name="responsibleCompany" checked="checked"> 代金引換
 											</label>
 										</div>
 									</div>
@@ -215,11 +167,8 @@
 								<td align="center">
 									<div class="row">
 										<div class="col-sm-12">
-											<label class="radio-inline"> <input type="radio"
-												name="responsibleCompany" checked="checked">
-												クレジットカード
-											</label><br>
-											<br>
+											<label class="radio-inline"> <input type="radio" name="responsibleCompany" checked="checked"> クレジットカード
+											</label><br> <br>
 										</div>
 									</div>
 								</td>
@@ -231,8 +180,7 @@
 			<div class="row">
 				<div class="col-xs-offset-4 col-xs-4">
 					<div class="form-group">
-						<input class="form-control btn btn-warning btn-block"
-							type="submit" value="この内容で注文する">
+						<input class="form-control btn btn-warning btn-block" type="submit" value="この内容で注文する">
 					</div>
 				</div>
 			</div>

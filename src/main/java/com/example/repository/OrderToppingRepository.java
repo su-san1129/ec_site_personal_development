@@ -2,7 +2,10 @@ package com.example.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import com.example.domain.OrderTopping;
@@ -16,13 +19,13 @@ import com.example.domain.Topping;
  */
 @Repository
 public class OrderToppingRepository {
-	
+
 	@Autowired
 	private NamedParameterJdbcTemplate template;
-	
+
 	@Autowired
 	private ToppingRepository toppingRepository;
-	
+
 	/**
 	 * 注文トッピングオブジェクトを格納するローマッパー.
 	 */
@@ -34,5 +37,39 @@ public class OrderToppingRepository {
 		OrderTopping orderTopping = new OrderTopping(id, toppingId, orderItemId, topping);
 		return orderTopping;
 	};
+
+	/**
+	 * 注文トッピングの一件検索.
+	 * 
+	 * @param id ID
+	 * @return 検索された注文トッピング 0件の場合は例外発生後、nullを返す。
+	 */
+	public OrderTopping load(Integer id) {
+		try {
+			String sql = "SELECT id, topping_id, order_item_id FROM order_toppings WHERE id=:id;";
+			SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+			OrderTopping orderTopping = template.queryForObject(sql, param, ORDER_TOPPING_ROW_MAPPER);
+			return orderTopping;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	/**
+	 * オーダートッピングをDBに保存.
+	 * 
+	 * @param orderTopping オーダートッピング
+	 */
+	public void save(OrderTopping orderTopping) {
+		SqlParameterSource param = new BeanPropertySqlParameterSource(orderTopping);
+		if (orderTopping.getId() == null) {
+			String sql = "INSERT INTO order_toppings (topping_id, order_item_id) VALUES( :toppingId, :orderItemId);";
+			template.update(sql, param);
+		} else {
+			String sql = "UPDATE order_toppings SET id=:id, topping_id=:toppingId, order_item_id=:orderItemId WHERE id=:id";
+			template.update(sql, param);
+		}
+	}
 
 }
