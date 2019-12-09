@@ -110,14 +110,26 @@ public class OrderRepository {
 			Number key = insert.executeAndReturnKey(param);
 			order.setId(key.intValue());
 		} else {
-			String sql = "UPDATE orders SET " + "id=:id" + ", user_id=:userId" + ", status=:status"
-					+ ", total_price=:totalPrice" + ", order_date=:orderDate" + ", destination_name=:destinationName"
-					+ ", destination_email=:destinationEmail" + ", destination_zipcode=:destinationZipcode"
-					+ ", destination_tel=:destinationTel" + ", delivery_time=:deliveryTime"
-					+ ", payment_method=:paymentMethod" + " WHERE id=:id;";
+			String sql = "UPDATE orders SET " + "id = :id, " + "user_id = :userId, " + "status = :status, "
+					+ "total_price = :totalPrice, " + "order_date = :orderDate, "
+					+ "destination_name = :destinationName, " + "destination_email = :destinationEmail, "
+					+ "destination_zipcode = :destinationZipcode, " + "destination_address = :destinationAddress, "
+					+ "destination_tel = :destinationTel, " + "delivery_time = :deliveryTime, "
+					+ "payment_method = :paymentMethod " + "WHERE id = :id";
 			template.update(sql, param);
 		}
 		return order;
+	}
+
+	/**
+	 * 一件削除.
+	 * 
+	 * @param id ID
+	 */
+	public void deleteById(Integer id) {
+		String sql = "DELETE FROM orders WHERE id = :id;";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+		template.update(sql, param);
 	}
 
 }

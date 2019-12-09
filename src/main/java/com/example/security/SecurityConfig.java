@@ -33,10 +33,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/", "/login", "/userLogin", "/register_user", "/register", "/logout",
-				"/item_detail", "/order_confirm", "/cart_list/**", "/order_finished").permitAll().anyRequest()
+		http.authorizeRequests()
+				.antMatchers("/", "/login", "/userLogin", "/register_user", "/register", "/item_detail",
+						"/cart_list/**")
+				.permitAll().antMatchers("/order_confirm", "/logout", "/order_finished").hasRole("USER").anyRequest()
 				.authenticated();
-		http.formLogin().loginPage("/login").loginProcessingUrl("/userLogin").defaultSuccessUrl("/", false)
+		http.formLogin().loginPage("/login").loginProcessingUrl("/userLogin").defaultSuccessUrl("/successPath", true)
 				.usernameParameter("email").passwordParameter("password");
 		http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout**")).logoutSuccessUrl("/")
 				.deleteCookies("JSESSIONID").invalidateHttpSession(true);

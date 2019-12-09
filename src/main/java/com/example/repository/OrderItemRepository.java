@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -62,6 +63,18 @@ public class OrderItemRepository {
 			template.update(sql, param);
 		}
 		return orderItem;
+	}
+
+	public OrderItem load(Integer id) {
+		try {
+			String sql = "SELECT id, item_id, order_id, quantity, size FROM order_items WHERE id = :id;";
+			SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+			OrderItem orderItem = template.queryForObject(sql, param, ORDER_ITEM_ROW_MAPPER);
+			return orderItem;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }

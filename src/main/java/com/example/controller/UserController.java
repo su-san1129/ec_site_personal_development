@@ -1,13 +1,19 @@
 package com.example.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.domain.LoginUser;
 import com.example.form.RegisterUserForm;
+import com.example.service.ShoppingCartService;
 import com.example.service.UserService;
 
 /**
@@ -21,7 +27,16 @@ import com.example.service.UserService;
 public class UserController {
 
 	@Autowired
+	private HttpServletRequest request;
+
+	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private ShoppingCartService shoppingCartService;
+
+	@Autowired
+	private HttpSession session;
 
 	@ModelAttribute
 	private RegisterUserForm setUpRegisterUserForm() {
@@ -40,6 +55,12 @@ public class UserController {
 		if (error != null) {
 			model.addAttribute("loginError", "メールアドレスまたはパスワードが違います。");
 		}
+
+		String url = request.getHeader("referer").substring(21);
+		if (!("/login".equals(url)) && !"/register_user".equals(url) && !"/register".equals(url)) {
+			session.setAttribute("url", url);
+		}
+		System.err.println(url + " sessionURL -> " + session.getAttribute("url"));
 		return "login";
 	}
 
@@ -64,6 +85,22 @@ public class UserController {
 		userService.registerUser(form);
 		System.err.println("登録が完了しました。");
 		return "login";
+	}
+
+	/**
+	 * 成功時のパス.
+	 * 
+	 * @return ログインや登録処理以外の場合は、以前のURLへ遷移。それ以外ならトップページ
+	 */
+	@RequestMapping("/successPath")
+	public String successPath(@AuthenticationPrincipal LoginUser loginUser) {
+		Integer userId = (Integer) session.getAttribute("userId");
+		if (userId != null) {
+			shoppingCartService.changeOrder(userId, loginUser);
+		}
+		String url = (String) session.getAttribute("url");
+		return "forward:" + url;
+
 	}
 
 }

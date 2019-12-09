@@ -1,7 +1,5 @@
 package com.example.service;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,9 +16,6 @@ import com.example.repository.OrderToppingRepository;
 
 @Service
 public class ShoppingCartService {
-
-	@Autowired
-	private HttpSession session;
 
 	@Autowired
 	private OrderRepository orderRepository;
@@ -48,22 +43,11 @@ public class ShoppingCartService {
 	 * @param form      フォーム
 	 * @param loginUser ログイン中のユーザー
 	 */
-	public void addShoppingCart(OrderItemForm form, @AuthenticationPrincipal LoginUser loginUser) {
-		Integer userId = session.getId().hashCode(); // ユーザーIDを仮で設定
-
+	public void addShoppingCart(OrderItemForm form, Integer userId, @AuthenticationPrincipal LoginUser loginUser) {
 		OrderItem orderItem = new OrderItem();
 		BeanUtils.copyProperties(form, orderItem);
-
-		if (loginUser != null) {
-			// ログインしていたら、ユーザーIDを差し替える
-			userId = loginUser.getUser().getId();
-		}
 		Order preOrder = orderRepository.findByUserIdAndStatus(userId, 0);
 		if (preOrder != null) {
-			if (loginUser != null && userId != loginUser.getUser().getId()) {
-				preOrder.setUserId(loginUser.getUser().getId());
-			}
-			preOrder.getOrderItemList().add(orderItem);
 			orderItem.setOrderId(preOrder.getId());
 		} else {
 			Order order = new Order();
@@ -71,7 +55,6 @@ public class ShoppingCartService {
 			order.setTotalPrice(0);
 			order.setUserId(userId);
 			order = orderRepository.save(order);
-			orderItemRepository.save(orderItem);
 			orderItem.setOrderId(order.getId());
 		}
 		orderItem = orderItemRepository.save(orderItem);
@@ -83,6 +66,38 @@ public class ShoppingCartService {
 				orderTopping.setToppingId(i);
 				orderToppingRepository.save(orderTopping);
 			});
+		}
+	}
+
+	/**
+	 * ログイン前に保持していたオーダー情報を現在のユーザーに変更.
+	 * 
+	 * @param loginUser ログイン中のユーザー
+	 */
+	public void changeOrder(Integer userId, @AuthenticationPrincipal LoginUser loginUser) {
+
+		Order preOrder = orderRepository.findByUserIdAndStatus(userId, 0);
+		if (preOrder != null) {
+			Order newOrder = orderRepository.findByUserIdAndStatus(loginUser.getUser().getId(), 0);
+			if (newOrder != null) {
+				preOrder.getOrderItemList().forEach(orderItem -> {
+					orderItem.setOrderId(newOrder.getId());
+					orderItemRepository.save(orderItem);
+				});
+			} else {
+				Order order = new Order();
+				order.setStatus(0);
+				order.setTotalPrice(0);
+				order.setUserId(userId);
+				order = orderRepository.save(order);
+				Integer orderId = order.getId();
+				preOrder.getOrderItemList().forEach(orderItem -> {
+					orderItem.setOrderId(orderId);
+					orderItemRepository.save(orderItem);
+				});
+
+			}
+			orderRepository.deleteById(preOrder.getId());
 		}
 	}
 

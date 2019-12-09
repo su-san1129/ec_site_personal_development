@@ -35,14 +35,23 @@ public class ShoppingCartController {
 			userId = loginUser.getUser().getId();
 		}
 		Order order = shoppingCartService.showOrderByUserIdAndStatus(userId, 0);
-		model.addAttribute("order", order);
+		if (order != null) {
+			model.addAttribute("order", order);
+		}
 
 		return "cart_list";
 	}
 
 	@RequestMapping("/addCart")
 	public String addCart(OrderItemForm form, @AuthenticationPrincipal LoginUser loginUser) {
-		shoppingCartService.addShoppingCart(form, loginUser);
+		Integer userId = session.getId().hashCode(); // ユーザーIDを仮で設定
+		if (loginUser != null) {
+			// ログインしていたら、ユーザーIDを差し替える
+			userId = loginUser.getUser().getId();
+		} else {
+			session.setAttribute("userId", userId);
+		}
+		shoppingCartService.addShoppingCart(form, userId, loginUser);
 		return "redirect:/cart_list";
 	}
 

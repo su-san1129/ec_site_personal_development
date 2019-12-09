@@ -35,6 +35,7 @@ public class UserRepository {
 				, rs.getString("zipcode")
 				, rs.getString("address")
 				, rs.getString("telephone")
+				, rs.getBoolean("isadmin")
 				);
 		return user;
 	};
@@ -46,7 +47,7 @@ public class UserRepository {
 	 */
 	public User load(Integer id) {
 		try {
-			String sql = "SELECT id, name, email, password, zipcode, address, telephone FROM users WHERE id = :id;";
+			String sql = "SELECT id, name, email, password, zipcode, address, telephone, isadmin FROM users WHERE id = :id;";
 			SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
 			User user = template.queryForObject(sql, param, USER_ROW_MAPPER);
 			return user;
@@ -64,7 +65,7 @@ public class UserRepository {
 	 */
 	public User findByMailAddress(String email) {
 		try {
-			String sql = "SELECT id, name, email, password, zipcode, address, telephone FROM users WHERE email = :email;";
+			String sql = "SELECT id, name, email, password, zipcode, address, telephone, isadmin FROM users WHERE email = :email;";
 			SqlParameterSource param = new MapSqlParameterSource().addValue("email", email);
 			User user = template.queryForObject(sql, param, USER_ROW_MAPPER);
 			return user;
