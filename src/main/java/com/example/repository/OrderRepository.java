@@ -61,12 +61,21 @@ public class OrderRepository {
 		while (rs.next()) {
 			if (rs.getInt("id") != preOrderId) {
 				orderItemList = new ArrayList<>();
-				Order order = new Order(rs.getInt("id"), rs.getInt("user_id"), rs.getInt("status"),
-						rs.getInt("total_price"), rs.getDate("order_date"), rs.getString("destination_name"),
-						rs.getString("destination_email"), rs.getString("destination_zipcode"),
-						rs.getString("destination_address"), rs.getString("destination_tel"),
-						rs.getTimestamp("delivery_time"), rs.getInt("payment_method"),
-						userRepository.load(rs.getInt("user_id")), orderItemList);
+				Order order = new Order(
+						rs.getInt("id")
+						, rs.getInt("user_id")
+						, rs.getInt("status")
+						, rs.getInt("total_price")
+						, rs.getDate("order_date")
+						, rs.getString("destination_name")
+						, rs.getString("destination_email")
+						, rs.getString("destination_zipcode")
+						, rs.getString("destination_address")
+						, rs.getString("destination_tel")
+						, rs.getTimestamp("delivery_time")
+						, rs.getInt("payment_method")
+						, userRepository.load(rs.getInt("user_id"))
+						, orderItemList);
 				orderList.add(order);
 			}
 			preOrderId = rs.getInt("id"); // 一行前のIDを現在のIDに更新
@@ -85,8 +94,12 @@ public class OrderRepository {
 			}
 			preOrderItemId = rs.getInt("order_item_id"); // 一行前のIDを現在のIDに更新
 			if (rs.getInt("order_topping_id") != 0) {
-				OrderTopping orderTopping = new OrderTopping(rs.getInt("order_topping_id"), rs.getInt("topping_id"),
-						rs.getInt("order_item_id"), toppingRepository.load(rs.getInt("topping_id")));
+				OrderTopping orderTopping = new OrderTopping(
+						rs.getInt("order_topping_id")
+						, rs.getInt("topping_id")
+						, rs.getInt("order_item_id")
+						, toppingRepository.load(rs.getInt("topping_id"))
+						);
 				orderToppingList.add(orderTopping);
 			}
 		}
@@ -116,12 +129,20 @@ public class OrderRepository {
 			Number key = insert.executeAndReturnKey(param);
 			order.setId(key.intValue());
 		} else {
-			String sql = "UPDATE orders SET " + "id = :id, " + "user_id = :userId, " + "status = :status, "
-					+ "total_price = :totalPrice, " + "order_date = :orderDate, "
-					+ "destination_name = :destinationName, " + "destination_email = :destinationEmail, "
-					+ "destination_zipcode = :destinationZipcode, " + "destination_address = :destinationAddress, "
-					+ "destination_tel = :destinationTel, " + "delivery_time = :deliveryTime, "
-					+ "payment_method = :paymentMethod " + "WHERE id = :id";
+			String sql = "UPDATE orders SET " 
+					+ "id = :id, " 
+					+ "user_id = :userId, " 
+					+ "status = :status, "
+					+ "total_price = :totalPrice, " 
+					+ "order_date = :orderDate, "
+					+ "destination_name = :destinationName, " 
+					+ "destination_email = :destinationEmail, "
+					+ "destination_zipcode = :destinationZipcode, " 
+					+ "destination_address = :destinationAddress, "
+					+ "destination_tel = :destinationTel, " 
+					+ "delivery_time = :deliveryTime, "
+					+ "payment_method = :paymentMethod " 
+					+ "WHERE id = :id";
 			template.update(sql, param);
 		}
 		return order;
