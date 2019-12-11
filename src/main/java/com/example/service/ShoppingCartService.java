@@ -47,6 +47,7 @@ public class ShoppingCartService {
 		OrderItem orderItem = new OrderItem();
 		BeanUtils.copyProperties(form, orderItem);
 		Order preOrder = orderRepository.findByUserIdAndStatus(userId, 0);
+
 		if (preOrder != null) {
 			orderItem.setOrderId(preOrder.getId());
 		} else {
@@ -57,13 +58,24 @@ public class ShoppingCartService {
 			order = orderRepository.save(order);
 			orderItem.setOrderId(order.getId());
 		}
-		orderItem = orderItemRepository.save(orderItem);
+		OrderItem preOrderItem = orderItemRepository.findByItemIdAndOrderId(orderItem.getSize(), orderItem.getItemId(),
+				orderItem.getOrderId());
+		if (preOrderItem != null) {
+			preOrderItem.setQuantity(preOrderItem.getQuantity() + 1);
+			orderItemRepository.save(preOrderItem);
+		} else {
+			orderItem = orderItemRepository.save(orderItem);
+		}
 		Integer orderItemId = orderItem.getId();
 		if (form.getOrderToppingList() != null) {
 			form.getOrderToppingList().forEach(i -> {
 				OrderTopping orderTopping = new OrderTopping();
-				orderTopping.setOrderItemId(orderItemId);
 				orderTopping.setToppingId(i);
+				if (preOrderItem == null) {
+					orderTopping.setOrderItemId(orderItemId);
+				} else {
+					orderTopping.setOrderItemId(preOrderItem.getId());
+				}
 				orderToppingRepository.save(orderTopping);
 			});
 		}
@@ -99,6 +111,16 @@ public class ShoppingCartService {
 			}
 			orderRepository.deleteById(preOrder.getId());
 		}
+	}
+
+	/**
+	 * カートの中身を削除する.
+	 * 
+	 * @param id orderItemId
+	 */
+	public void deleteCart(Integer id) {
+		orderToppingRepository.deleteByOrderItemId(id);
+		orderItemRepository.deleteOrderItem(id);
 	}
 
 }

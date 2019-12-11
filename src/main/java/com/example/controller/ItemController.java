@@ -30,9 +30,11 @@ public class ItemController {
 	 * @return 商品一覧画面
 	 */
 	@RequestMapping("/")
-	public String showItemList(Model model) {
-		List<Item> itemList = itemService.showItemList();
+	public String showItemList(Model model, String name) {
+		List<Item> itemList = itemService.fizzySearchOrFindAllItemList(name);
+		List<String> nameList = itemService.itemNameList();
 		model.addAttribute("itemList", itemList);
+		model.addAttribute("nameList", nameList);
 		return "item_list";
 	}
 

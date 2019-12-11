@@ -7,11 +7,17 @@
 <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
 <link href="@{/css/piza.css}" rel="stylesheet">
 <title th:replace="${title}">ピザ屋のネット注文</title>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+
 </head>
 <body>
-    <div id="header" th:replace="~{layout/header :: header}"></div>
-    <div id="body" th:replace="${body}"></div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<div id="header" th:replace="~{layout/header :: header}"></div>
+	<div id="body" th:replace="${body}"></div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script th:src="@{/js/bootstrap.min.js}"></script>
+
 </body>
 </html>

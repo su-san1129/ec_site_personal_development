@@ -1,5 +1,6 @@
 package com.example.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,33 @@ public class ItemService {
 			quantity[i] = i + 1;
 		}
 		return quantity;
+	}
+
+	/**
+	 * 名前で検索された商品を表示。何も送信されていない場合は、全件検索を返す.
+	 * 
+	 * @param name 商品名
+	 * @return 商品一覧
+	 */
+	public List<Item> fizzySearchOrFindAllItemList(String name) {
+		if (name == null) {
+			return itemRepository.findAll();
+		} else {
+			return itemRepository.findByName(name);
+		}
+	}
+
+	/**
+	 * 名前だけを取り出してリストに格納.
+	 * 
+	 * @return 商品の名前一覧
+	 */
+	public List<String> itemNameList() {
+		List<String> nameList = new ArrayList<String>();
+		itemRepository.findAll().forEach(item -> {
+			nameList.add(item.getName());
+		});
+		return nameList;
 	}
 
 }

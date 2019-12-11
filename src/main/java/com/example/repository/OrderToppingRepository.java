@@ -72,4 +72,10 @@ public class OrderToppingRepository {
 		}
 	}
 
+	public void deleteByOrderItemId(Integer orderItemId) {
+		String sql = "DELETE FROM order_toppings WHERE order_item_id = :orderItemId";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("orderItemId", orderItemId);
+		template.update(sql, param);
+	}
+
 }

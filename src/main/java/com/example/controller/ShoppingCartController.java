@@ -35,13 +35,20 @@ public class ShoppingCartController {
 			userId = loginUser.getUser().getId();
 		}
 		Order order = shoppingCartService.showOrderByUserIdAndStatus(userId, 0);
-		if (order != null) {
+		if (order != null && order.getOrderItemList().size() != 0) {
 			model.addAttribute("order", order);
 		}
 
 		return "cart_list";
 	}
 
+	/**
+	 * ショッピングカートに商品を追加する.
+	 * 
+	 * @param form      フォーム
+	 * @param loginUser ログインしているユーザー
+	 * @return ショッピングカート一覧
+	 */
 	@RequestMapping("/addCart")
 	public String addCart(OrderItemForm form, @AuthenticationPrincipal LoginUser loginUser) {
 		Integer userId = session.getId().hashCode(); // ユーザーIDを仮で設定
@@ -52,6 +59,18 @@ public class ShoppingCartController {
 			session.setAttribute("userId", userId);
 		}
 		shoppingCartService.addShoppingCart(form, userId, loginUser);
+		return "redirect:/cart_list";
+	}
+
+	/**
+	 * 商品を削除する.
+	 * 
+	 * @param id ID
+	 * @return ショッピングカート一覧
+	 */
+	@RequestMapping("/deleteCart")
+	public String deleteCart(Integer id) {
+		shoppingCartService.deleteCart(id);
 		return "redirect:/cart_list";
 	}
 

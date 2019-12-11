@@ -14,36 +14,29 @@ import com.example.domain.Topping;
 
 /**
  * 商品情報を操作するリポジトリ.
+ * 
  * @author takahiro.suzuki
  *
  */
 @Repository
 public class ItemRepository {
-	
+
 	@Autowired
 	private NamedParameterJdbcTemplate template;
-	
+
 	@Autowired
 	private ToppingRepository toppingRepository;
-	
+
 	/**
 	 * 商品情報のローマッパー
 	 */
 	private final RowMapper<Item> ITEM_ROW_MAPPER = (rs, i) -> {
 		List<Topping> toppingList = toppingRepository.findAll();
-		Item item = new Item(
-				rs.getInt("id")
-				, rs.getString("name")
-				, rs.getString("description")
-				, rs.getInt("price_m")
-				, rs.getInt("price_l")
-				, rs.getString("image_path")
-				, rs.getBoolean("deleted")
-				, toppingList
-				);
+		Item item = new Item(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getInt("price_m"),
+				rs.getInt("price_l"), rs.getString("image_path"), rs.getBoolean("deleted"), toppingList);
 		return item;
 	};
-	
+
 	/**
 	 * 商品の一件検索.
 	 * 
@@ -61,16 +54,28 @@ public class ItemRepository {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * 商品の全件検索.
 	 * 
 	 * @return 商品の全件検索情報
 	 */
-	public List<Item> findAll(){
+	public List<Item> findAll() {
 		String sql = "SELECT id, name, description, price_m, price_l, image_path, deleted FROM items ORDER BY id;";
 		List<Item> itemList = template.query(sql, ITEM_ROW_MAPPER);
 		return itemList;
+	}
+
+	/**
+	 * 検索された名前から該当する商品を取り出す.
+	 * 
+	 * @param name 名前
+	 * @return 商品リスト
+	 */
+	public List<Item> findByName(String name) {
+		String sql = "SELECT id, name, description, price_m, price_l, image_path, deleted FROM items WHERE name LIKE :name ORDER BY id;";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("name", "%" + name + "%");
+		return template.query(sql, param, ITEM_ROW_MAPPER);
 	}
 
 }

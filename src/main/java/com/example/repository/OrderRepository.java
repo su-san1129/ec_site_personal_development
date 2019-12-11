@@ -72,9 +72,15 @@ public class OrderRepository {
 			preOrderId = rs.getInt("id"); // 一行前のIDを現在のIDに更新
 			if (rs.getInt("order_item_id") != preOrderItemId) {
 				orderToppingList = new ArrayList<>();
-				OrderItem orderItem = new OrderItem(rs.getInt("order_item_id"), rs.getInt("item_id"), rs.getInt("id"),
-						rs.getInt("quantity"), rs.getString("size").charAt(0),
-						itemRepository.load(rs.getInt("item_id")), orderToppingList);
+				OrderItem orderItem = new OrderItem(
+						rs.getInt("order_item_id")
+						, rs.getInt("item_id")
+						, rs.getInt("id")
+						, rs.getInt("quantity")
+						, rs.getString("size").charAt(0)
+						, itemRepository.load(rs.getInt("item_id"))
+						, orderToppingList
+						);
 				orderItemList.add(orderItem);
 			}
 			preOrderItemId = rs.getInt("order_item_id"); // 一行前のIDを現在のIDに更新

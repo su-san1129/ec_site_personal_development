@@ -53,6 +53,12 @@ public class OrderItemRepository {
 		insert = withTableName.usingGeneratedKeyColumns("id");
 	}
 
+	/**
+	 * 注文商品のインサートもしくはアップデート.
+	 * 
+	 * @param orderItem 注文商品
+	 * @return 注文商品
+	 */
 	public OrderItem save(OrderItem orderItem) {
 		SqlParameterSource param = new BeanPropertySqlParameterSource(orderItem);
 		if (orderItem.getId() == null) {
@@ -65,6 +71,12 @@ public class OrderItemRepository {
 		return orderItem;
 	}
 
+	/**
+	 * 注文商品の一件検索.
+	 * 
+	 * @param id ID
+	 * @return 注文商品
+	 */
 	public OrderItem load(Integer id) {
 		try {
 			String sql = "SELECT id, item_id, order_id, quantity, size FROM order_items WHERE id = :id;";
@@ -75,6 +87,31 @@ public class OrderItemRepository {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	/**
+	 * 注文商品をitemIdとorderIdで検索.
+	 * 
+	 * @param itemId  商品ID
+	 * @param orderId 注文ID
+	 * @return 注文商品
+	 */
+	public OrderItem findByItemIdAndOrderId(Character size, Integer itemId, Integer orderId) {
+		try {
+			String sql = "SELECT id, item_id, order_id, quantity, size FROM order_items WHERE size=:size AND item_id=:itemId AND order_id=:orderId;";
+			SqlParameterSource param = new MapSqlParameterSource().addValue("size", size).addValue("itemId", itemId)
+					.addValue("orderId", orderId);
+			return template.queryForObject(sql, param, ORDER_ITEM_ROW_MAPPER);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public void deleteOrderItem(Integer id) {
+		String sql = "DELETE FROM order_items WHERE id = :id";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+		template.update(sql, param);
 	}
 
 }

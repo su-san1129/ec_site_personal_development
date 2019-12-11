@@ -1,26 +1,27 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	th:replace="~{layout/template :: layout(~{::title},~{::body/content()})}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" th:replace="~{layout/template :: layout(~{::title},~{::body/content()})}">
+
 <head>
 <title>ピザ注文配達サイト</title>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
 </head>
 <body>
 	<div class="container">
 
 		<div class="row">
-			<div
-				class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-10 col-xs-12">
+			<div class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-10 col-xs-12">
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<div class="panel-title">商品を検索する</div>
 					</div>
 					<div class="panel-body">
-						<form method="post" action="#" class="form-horizontal">
+						<form method="post" action="#" class="form-horizontal" th:action="@{/}">
 							<div class="form-group">
 								<label for="code" class="control-label col-sm-2">商品名</label>
 								<div class="col-sm-9">
-									<input type="text" name="code" id="code"
-										class="form-control input-sm" />
+									<input type="text" name="name" id="code" class="form-control input-sm" />
 								</div>
 							</div>
 							<div class="text-center">
@@ -34,20 +35,12 @@
 		</div>
 
 		<div class="row">
-			<div
-				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
+			<div class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
 				<div class="row">
-					<div class="panel panel-default col-lg-4"
-						th:each="item:${itemList}">
+					<div class="panel panel-default col-lg-4" th:each="item:${itemList}">
 						<div class="panel-body">
-							<a th:href="@{ '/item_detail?id=' + ${item.id} }"> <img
-								th:src="@{ '/img/' + ${item.imagePath} }"
-								class="img-responsive img-rounded" width="200" height="600">
-							</a><br> <a th:href="@{ '/item_detail?id=' + ${item.id} }"><span
-								th:text="${item.name}">じゃがバターピザ</span></a><br> <span
-								class="price">&nbsp;M&nbsp;</span>&nbsp;&nbsp;<span
-								th:text="${item.priceM}">1,380</span>円(税抜)<br> <span
-								class="price">&nbsp;L&nbsp;&nbsp;</span><span
+							<a th:href="@{ '/item_detail?id=' + ${item.id} }"> <img th:src="@{ '/img/' + ${item.imagePath} }" class="img-responsive img-rounded" width="200" height="600">
+							</a><br> <a th:href="@{ '/item_detail?id=' + ${item.id} }"><span th:text="${item.name}">じゃがバターピザ</span></a><br> <span class="price">&nbsp;M&nbsp;</span>&nbsp;&nbsp;<span th:text="${item.priceM}">1,380</span>円(税抜)<br> <span class="price">&nbsp;L&nbsp;&nbsp;</span><span
 								th:text="${item.priceL}">2,380</span>円(税抜)<br>
 						</div>
 					</div>
@@ -55,5 +48,10 @@
 			</div>
 		</div>
 	</div>
+<script th:inline="javascript">
+$( "#code" ).autocomplete({
+      source: [[${nameList}]]
+    });
+</script>
 </body>
 </html>

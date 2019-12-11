@@ -66,10 +66,10 @@ public class Order {
 	 * 
 	 * @return 消費税
 	 */
-//	public int getTax() {
-//		int tax = (int) (getCalcTotalPrice() * 0.1);
-//		return tax;
-//	}
+	public int tax() {
+		int tax = (int) (getCalcTotalPrice() * 0.1);
+		return tax;
+	}
 
 	public Order() {
 		super();
@@ -80,13 +80,13 @@ public class Order {
 	 * 
 	 * @return 合計金額
 	 */
-//	public int getCalcTotalPrice() {
-//		int totalPrice = 0;
-//		for( OrderItem orderItem : this.orderItemList) {
-//		  totalPrice += orderItem.getSubTotal();
-//		}
-//		return totalPrice;
-//	}
+	public int getCalcTotalPrice() {
+		int totalPrice = 0;
+		for (OrderItem orderItem : this.orderItemList) {
+			totalPrice += orderItem.subTotal();
+		}
+		return totalPrice;
+	}
 
 	// 以下 getter / setter
 	public Integer getId() {
