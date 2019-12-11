@@ -1,5 +1,8 @@
 package com.example.service;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import org.springframework.beans.BeanUtils;
@@ -27,6 +30,16 @@ public class OrderService {
 		BeanUtils.copyProperties(form, order);
 		Order insertOrder = showOrderList(loginUser.getUser().getId(), 0);
 		order.setTotalPrice(insertOrder.getTotalPrice() + insertOrder.tax());
+		LocalDate localDate = form.convertLocalDate(form.getDeliveryTime());
+		LocalDateTime localDateTime = LocalDateTime.of(
+				localDate.getYear()
+				, localDate.getMonthValue()
+				, localDate.getDayOfMonth()
+				, form.getDeliveryHour()
+				, 0
+				);
+		Timestamp timestamp = Timestamp.valueOf(localDateTime);
+		order.setDeliveryTime(timestamp);
 
 		if (order.getPaymentMethod() == 1) {
 			order.setStatus(1);

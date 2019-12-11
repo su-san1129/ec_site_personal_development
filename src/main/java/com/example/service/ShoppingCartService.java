@@ -58,9 +58,10 @@ public class ShoppingCartService {
 			order = orderRepository.save(order);
 			orderItem.setOrderId(order.getId());
 		}
+		// 注文商品の重複を検索
 		OrderItem preOrderItem = orderItemRepository.findByItemIdAndOrderId(orderItem.getSize(), orderItem.getItemId(),
 				orderItem.getOrderId());
-		if (preOrderItem != null) {
+		if (preOrderItem != null) { // 重複商品が存在していた場合、数量だけを増やす.
 			preOrderItem.setQuantity(preOrderItem.getQuantity() + 1);
 			orderItemRepository.save(preOrderItem);
 		} else {
