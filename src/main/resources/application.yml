@@ -1,7 +1,7 @@
 spring:
   datasource:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/ec_201910a
+    url: jdbc:postgresql://localhost:5432/suzuki_takahiro
     username: postgres
     password: postgres
   mail:
@@ -12,3 +12,5 @@ spring:
     properties:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
+  jmx:
+    enabled: false

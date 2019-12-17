@@ -51,6 +51,7 @@ public class OrderController {
 	 */
 	@RequestMapping("/order_finished")
 	public String toOrderFinished() {
+
 		return "order_finished";
 	}
 

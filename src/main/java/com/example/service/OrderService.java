@@ -29,7 +29,7 @@ public class OrderService {
 		Order order = new Order();
 		BeanUtils.copyProperties(form, order);
 		Order insertOrder = showOrderList(loginUser.getUser().getId(), 0);
-		order.setTotalPrice(insertOrder.getTotalPrice() + insertOrder.tax());
+		order.setTotalPrice(insertOrder.getTotalPrice());
 		LocalDate localDate = form.convertLocalDate(form.getDeliveryTime());
 		LocalDateTime localDateTime = LocalDateTime.of(
 				localDate.getYear()

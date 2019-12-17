@@ -62,7 +62,7 @@ public class ShoppingCartService {
 		OrderItem preOrderItem = orderItemRepository.findByItemIdAndOrderId(orderItem.getSize(), orderItem.getItemId(),
 				orderItem.getOrderId());
 		if (preOrderItem != null) { // 重複商品が存在していた場合、数量だけを増やす.
-			preOrderItem.setQuantity(preOrderItem.getQuantity() + 1);
+			preOrderItem.setQuantity(preOrderItem.getQuantity() + orderItem.getQuantity());
 			orderItemRepository.save(preOrderItem);
 		} else {
 			orderItem = orderItemRepository.save(orderItem);

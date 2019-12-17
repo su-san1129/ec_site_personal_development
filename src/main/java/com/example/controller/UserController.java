@@ -56,7 +56,8 @@ public class UserController {
 			model.addAttribute("loginError", "メールアドレスまたはパスワードが違います。");
 		}
 
-		String url = request.getHeader("referer").substring(21);
+		// String url = request.getHeader("referer").substring(21);
+		String url = request.getHeader("referer").substring(39);// デプロイ用
 		if (!("/login".equals(url)) && !"/register_user".equals(url) && !"/register".equals(url)) {
 			session.setAttribute("url", url);
 		}
