@@ -17,7 +17,6 @@ import com.example.service.ItemService;
  *
  */
 @Controller
-@RequestMapping("")
 public class ItemController {
 
 	@Autowired

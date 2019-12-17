@@ -56,12 +56,14 @@ public class UserController {
 			model.addAttribute("loginError", "メールアドレスまたはパスワードが違います。");
 		}
 
-		// String url = request.getHeader("referer").substring(21);
-		String url = request.getHeader("referer").substring(39);// デプロイ用
-		if (!("/login".equals(url)) && !"/register_user".equals(url) && !"/register".equals(url)) {
-			session.setAttribute("url", url);
+		if(request.getHeader("referer") != null) {
+			String url = request.getHeader("referer").substring(21);
+			if (!("/login".equals(url)) && !"/register_user".equals(url) && !"/register".equals(url)) {
+				session.setAttribute("url", url);
+			}
+			System.err.println(url + " sessionURL -> " + session.getAttribute("url"));
 		}
-		System.err.println(url + " sessionURL -> " + session.getAttribute("url"));
+		//String url = request.getHeader("referer").substring(39);// デプロイ用
 		return "login";
 	}
 

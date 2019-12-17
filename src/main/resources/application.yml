@@ -1,9 +1,11 @@
 spring:
   datasource:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/suzuki_takahiro
+    url: jdbc:postgresql://localhost:5432/ec_201910a
     username: postgres
     password: postgres
+  batch:
+    initialize-schema: always
   mail:
     host: smtp.gmail.com
     port: 587
