@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
@@ -37,8 +38,10 @@ public class ItemControllerTest {
 
 	@Before
 	public void setUp() throws Exception {
-		//mockMvcを利用して、仮想のリクエストを発生させてテストを実行する.
-		mockMvc = MockMvcBuilders.standaloneSetup(target).build();
+		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+		viewResolver.setPrefix("/templates");
+		viewResolver.setSuffix(".html");
+		mockMvc = MockMvcBuilders.standaloneSetup(target).setViewResolvers(viewResolver).build();
 	}
 
 	@After
@@ -64,7 +67,7 @@ public class ItemControllerTest {
 	 */
 	@Test
 	public void getItemDetailTest() throws Exception{
-		mockMvc.perform(get("/item_detail/").param("id", "4000"))
+		mockMvc.perform(get("/item_detail").param("id", "4"))
 		.andExpect(status().isOk())
 		.andExpect(view().name("item_detail"));
 	}
